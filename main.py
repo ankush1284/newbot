@@ -1,30 +1,22 @@
-from pyrogram import Client, filters, enums
+from pyrogram import Client
 from config import Config
-from database import db
-from plugins.captions import CaptionManager
-from plugins.thumbnails import ThumbnailManager
+import asyncio
 
-app = Client(
-    "forward_bot",
-    api_id=Config.API_ID,
-    api_hash=Config.API_HASH,
-    bot_token=Config.BOT_TOKEN
-)
-
-caption_mgr = CaptionManager()
-thumb_mgr = ThumbnailManager()
-
-@app.on_message(filters.command("start"))
-async def start(client, message):
-    # New interactive menu
-    buttons = [
-        [("⚙️ Settings", "settings")],
-        [("📝 Captions", "caption_menu"), ("🖼️ Thumbnails", "thumb_menu")],
-        [("🚀 Start Forwarding", "start_forward")]
-    ]
-    await message.reply(
-        "**Advanced Forward Bot**\nChoose an option:",
-        reply_markup=InlineKeyboardMarkup(buttons)
+async def main():
+    app = Client(
+        "forward_bot",
+        api_id=Config.API_ID,
+        api_hash=Config.API_HASH,
+        bot_token=Config.BOT_TOKEN,
+        plugins=dict(root="plugins")
     )
+    
+    await app.start()
+    print("Bot is running...")
+    
+    # Keep the bot alive
+    while True:
+        await asyncio.sleep(3600)  # Sleep for 1 hour
 
-# [Rest of your forwarding logic...]
+if __name__ == "__main__":
+    asyncio.run(main())
