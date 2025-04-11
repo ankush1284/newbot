@@ -1,8 +1,11 @@
 from pyrogram import Client
 from config import Config
 import asyncio
+import logging
 
-async def main():
+logging.basicConfig(level=logging.INFO)
+
+async def run_bot():
     app = Client(
         "forward_bot",
         api_id=Config.API_ID,
@@ -12,11 +15,11 @@ async def main():
     )
     
     await app.start()
-    print("Bot is running...")
+    logging.info("Bot started successfully!")
     
-    # Keep the bot alive
+    # Keep the bot running
     while True:
-        await asyncio.sleep(3600)  # Sleep for 1 hour
+        await asyncio.sleep(3600)
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    asyncio.run(run_bot())
