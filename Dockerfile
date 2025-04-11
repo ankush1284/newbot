@@ -8,8 +8,8 @@ RUN apt-get update && apt-get install -y \
     python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# 2. Upgrade pip first
-RUN pip install --upgrade pip
+# 2. Upgrade pip and setuptools
+RUN pip install --upgrade pip setuptools wheel
 
 # 3. Install Python packages
 COPY requirements.txt .
